@@ -1,0 +1,46 @@
+for fwrite() fail
+sudo usermod -a -G www-data pesit
+sudo chgrp -R www-data /var/www
+sudo chmod -R g+w /var/www
+sudo service apache2 restart
+
+
+to install php on ubuntu
+>sudo apt-get install apache2 php5 libapache2-mod-php5
+>a2query -m php5    // To verify that the php module is loaded, type:
+>sudo a2enmod php5
+>sudo service apache2 restart
+
+for copy-paste of files fail 
+
+cd etc/apache2/
+ls
+ls -il apache2.conf 
+chown pesit apache2.conf 
+sudo chown root:pesit apache2.conf 
+ls -il apache2.conf 
+sudo chmod g+w apache2.conf 
+ls -il apache2.conf 
+sudo service apache2 restart
+
+
+for .htacess configuration
+
+sudo a2enmod rewrite
+sudo service apache2 restart
+sudo nano /etc/apache2/sites-enabled/000-default.conf
+
+add these in <VirtualHost *:80>
+
+<Directory /var/www/html>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride All
+                Order allow,deny
+                allow from all
+</Directory>
+sudo service apache2 restart
+sudo nano /var/www/html/.htaccess
+add these in .htacess
+
+RewriteEngine on
+RewriteRule ^about$ about.html [NC]
